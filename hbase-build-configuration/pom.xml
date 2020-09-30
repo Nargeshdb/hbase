@@ -31,6 +31,9 @@
   <name>Apache HBase - Build Configuration</name>
   <description>Configure the build-support artifacts for maven build</description>
 
+  <properties>
+    <errorProneJavac>${com.google.errorprone:javac:jar}</errorProneJavac>
+  </properties>
   <packaging>pom</packaging>
   <build>
     <plugins>
@@ -72,6 +75,7 @@
         <!-- https://errorprone.info/docs/installation Maven section has details -->
         <!-- required when compiling with JDK 8 -->
         <javac.version>9+181-r4173-1</javac.version>
+        <errorProneJavac>${com.google.errorprone:javac:jar}</errorProneJavac>
       </properties>
       <dependencies>
         <dependency>
@@ -92,20 +96,53 @@
           <version>${javac.version}</version>
           <scope>provided</scope>
         </dependency>
+        <dependency>
+          <groupId>org.checkerframework</groupId>
+          <artifactId>checker-qual</artifactId>
+          <version>3.6.1</version>
+        </dependency>
+<!--        <dependency>-->
+<!--          <groupId>com.google.errorprone</groupId>-->
+<!--          <artifactId>javac</artifactId>-->
+<!--          <version>9+181-r4173-1</version>-->
+<!--        </dependency>-->
+        <dependency>
+          <groupId>net.sridharan.objectconstruction</groupId>
+          <artifactId>object-construction-qual</artifactId>
+          <version>0.1.10-SNAPSHOT</version>
+        </dependency>
+
       </dependencies>
       <build>
         <plugins>
+          <plugin>
+            <!-- This plugin will set properties values using dependency information -->
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>properties</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
           <!-- Turn on error-prone -->
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.8.1</version>
             <configuration>
+              <fork>true</fork>
+              <!-- If using JDK 8, add source and target. -->
               <source>${compileSource}</source>
               <target>${compileSource}</target>
-              <!-- required when compiling with JDK 8 -->
-              <fork>true</fork>
               <showWarnings>true</showWarnings>
-              <compilerArgs>
+              <compilerArguments>
+                <Xmaxerrs>10000</Xmaxerrs>
+                <Xmaxwarns>10000</Xmaxwarns>
+              </compilerArguments>
+              <compilerArgs combine.children="append">
                 <arg>-XDcompilePolicy=simple</arg>
                 <!-- All -Xep need to be on single line see: https://github.com/google/error-prone/pull/1115 -->
                 <arg>-Xplugin:ErrorProne -XepDisableWarningsInGeneratedCode -Xep:FallThrough:OFF -Xep:ClassNewInstance:ERROR -Xep:MissingDefault:ERROR</arg>
@@ -113,6 +150,16 @@
                 <arg>-J-Xbootclasspath/p:${settings.localRepository}/com/google/errorprone/javac/${javac.version}/javac-${javac.version}.jar</arg>
               </compilerArgs>
               <annotationProcessorPaths>
+                <path>
+                  <groupId>net.sridharan.objectconstruction</groupId>
+                  <artifactId>object-construction-checker</artifactId>
+                  <version>0.1.10-SNAPSHOT</version>
+                </path>
+                <path>
+                  <groupId>org.checkerframework</groupId>
+                  <artifactId>checker</artifactId>
+                  <version>3.6.1</version>
+                </path>
                 <path>
                   <groupId>com.google.errorprone</groupId>
                   <artifactId>error_prone_core</artifactId>

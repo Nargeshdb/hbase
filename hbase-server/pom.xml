@@ -34,6 +34,7 @@
     <license.bundles.logo>true</license.bundles.logo>
     <license.bundles.bootstrap>true</license.bundles.bootstrap>
     <license.bundles.jquery>true</license.bundles.jquery>
+    <errorProneJavac>${com.google.errorprone:javac:jar}</errorProneJavac>
   </properties>
   <build>
     <!-- Make sure resources get added before they are processed
@@ -230,6 +231,49 @@
         <groupId>net.revelc.code</groupId>
         <artifactId>warbucks-maven-plugin</artifactId>
       </plugin>
+
+          <plugin>
+            <!-- This plugin will set properties values using dependency information -->
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>properties</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.8.1</version>
+            <configuration>
+              <fork>true</fork>
+              <source>1.8</source>
+              <target>1.8</target>
+              <showWarnings>true</showWarnings>
+              <compilerArguments>
+                <Xmaxerrs>10000</Xmaxerrs>
+                <Xmaxwarns>10000</Xmaxwarns>
+              </compilerArguments>
+              <annotationProcessorPaths>
+                <path>
+                  <groupId>net.sridharan.objectconstruction</groupId>
+                  <artifactId>object-construction-checker</artifactId>
+                  <version>0.1.10-SNAPSHOT</version>
+                </path>
+                <path>
+                  <groupId>org.checkerframework</groupId>
+                  <artifactId>checker</artifactId>
+                  <version>3.6.1</version>
+                </path>
+              </annotationProcessorPaths>
+              <compilerArgs combine.children="append">
+                <arg>-J-Xbootclasspath/p:${errorProneJavac}</arg>
+              </compilerArgs>
+            </configuration>
+          </plugin>
+
     </plugins>
   </build>
   <dependencies>
@@ -503,7 +547,25 @@
       <artifactId>log4j</artifactId>
       <scope>test</scope>
     </dependency>
+
+    <dependency>
+      <groupId>org.checkerframework</groupId>
+      <artifactId>checker-qual</artifactId>
+      <version>3.6.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.errorprone</groupId>
+      <artifactId>javac</artifactId>
+      <version>9+181-r4173-1</version>
+    </dependency>
+    <dependency>
+      <groupId>net.sridharan.objectconstruction</groupId>
+      <artifactId>object-construction-qual</artifactId>
+      <version>0.1.10-SNAPSHOT</version>
+    </dependency>
+
   </dependencies>
+
   <profiles>
     <!-- Needs to make the profile in apache parent pom -->
     <profile>
