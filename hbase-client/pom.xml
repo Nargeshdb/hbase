@@ -61,15 +61,16 @@
             <path>
               <groupId>org.checkerframework</groupId>
               <artifactId>checker</artifactId>
-              <version>3.7.0</version>
+              <version>3.10.1-SNAPSHOT</version>
             </path>
           </annotationProcessorPaths>
           <compilerArgs combine.children="append">
             <!-- If using JDK 8, use only the two arguments immediately below. -->
             <arg>-J-Xbootclasspath/p:${errorProneJavac}</arg>
             <arg>-Awarns</arg>
-            <arg>-AdisableReturnsReceiver</arg>
+            <!--            <arg>-AdisableReturnsReceiver</arg>-->
             <arg>-AcheckMustCall</arg>
+            <arg>-AcountMustCall</arg>
           </compilerArgs>
         </configuration>
       </plugin>
@@ -153,7 +154,7 @@
     <dependency>
       <groupId>org.checkerframework</groupId>
       <artifactId>checker-qual</artifactId>
-      <version>3.7.0</version>
+      <version>3.10.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>com.google.errorprone</groupId>
