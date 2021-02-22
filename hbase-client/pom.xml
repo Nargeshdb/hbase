@@ -74,6 +74,7 @@
                 <arg>-AdisableReturnsReceiver</arg>
                 <arg>-AcheckMustCall</arg>
                 <arg>-AskipDefs=^org.apache.hadoop.hbase.generated\.</arg>
+                <arg>-Astubs=../hbase.astub</arg>
               </compilerArgs>
             </configuration>
           </execution>
