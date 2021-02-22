@@ -53,6 +53,9 @@ import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.hbase.util.ChecksumType;
 import org.apache.hadoop.hbase.util.ClassSize;
 import org.apache.yetus.audience.InterfaceAudience;
+import org.checkerframework.checker.mustcall.qual.ResetMustCall;
+import org.checkerframework.checker.objectconstruction.qual.NotOwning;
+import org.checkerframework.checker.objectconstruction.qual.Owning;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.hbase.thirdparty.com.google.common.annotations.VisibleForTesting;
@@ -709,7 +712,7 @@ public class HFileBlock implements Cacheable {
   /**
    * @return a byte stream reading the data + checksum of this block
    */
-  DataInputStream getByteStream() {
+  @NotOwning DataInputStream getByteStream() {
     ByteBuff dup = this.buf.duplicate();
     dup.position(this.headerSize());
     return new DataInputStream(new ByteBuffInputStream(dup));
@@ -789,7 +792,7 @@ public class HFileBlock implements Cacheable {
      * A stream that we write uncompressed bytes to, which compresses them and
      * writes them to {@link #baosInMemory}.
      */
-    private DataOutputStream userDataStream;
+    @Owning private DataOutputStream userDataStream;
 
     /**
      * Bytes to be written to the file system, including the header. Compressed
@@ -875,7 +878,9 @@ public class HFileBlock implements Cacheable {
      *
      * @return the stream the user can write their data into
      */
-    DataOutputStream startWriting(BlockType newBlockType)
+    @SuppressWarnings("objectconstruction:required.method.not.called") //TP: no null check for userDataStream
+    @ResetMustCall("this.userDataStream")
+    @NotOwning DataOutputStream startWriting(BlockType newBlockType)
         throws IOException {
       if (state == State.BLOCK_READY && startOffset != -1) {
         // We had a previous block that was written to a stream at a specific

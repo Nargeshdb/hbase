@@ -45,6 +45,7 @@ public class RemoteWithExtrasException extends RemoteException {
   /**
    * Dynamic class loader to load filter/comparators
    */
+  @SuppressWarnings("return.type.incompatible") // imprecision in type inference
   private final static class ClassLoaderHolder {
     private final static ClassLoader CLASS_LOADER;
 
