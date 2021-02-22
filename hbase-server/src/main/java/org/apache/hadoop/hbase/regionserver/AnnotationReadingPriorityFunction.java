@@ -102,6 +102,7 @@ public class AnnotationReadingPriorityFunction implements PriorityFunction {
    * @param rpcServices
    *          The RPC server implementation
    */
+  @SuppressWarnings("argument.type.incompatible") // imprecision in type inference
   public AnnotationReadingPriorityFunction(final RSRpcServices rpcServices) {
     this(rpcServices, rpcServices.getClass());
   }

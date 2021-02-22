@@ -43,6 +43,7 @@ import org.apache.hadoop.hbase.util.LeaseNotRecoveredException;
 import org.apache.hadoop.hbase.util.RecoverLeaseFSUtils;
 import org.apache.yetus.audience.InterfaceAudience;
 import org.apache.yetus.audience.InterfaceStability;
+import org.checkerframework.checker.mustcall.qual.MustCall;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.hbase.thirdparty.com.google.common.annotations.VisibleForTesting;
@@ -79,7 +80,7 @@ public abstract class AbstractFSWALProvider<T extends AbstractFSWAL<?>> implemen
     void init(FileSystem fs, Path path, Configuration c, FSDataInputStream s) throws IOException;
   }
 
-  protected volatile T wal;
+  protected volatile @MustCall("close") T wal;
   protected WALFactory factory;
   protected Configuration conf;
   protected List<WALActionsListener> listeners = new ArrayList<>();
@@ -139,8 +140,8 @@ public abstract class AbstractFSWALProvider<T extends AbstractFSWAL<?>> implemen
   }
 
   @Override
-  public T getWAL(RegionInfo region) throws IOException {
-    T walCopy = wal;
+  public @MustCall("close") T getWAL(RegionInfo region) throws IOException {
+    @MustCall("close") T walCopy = wal;
     if (walCopy != null) {
       return walCopy;
     }
@@ -167,13 +168,13 @@ public abstract class AbstractFSWALProvider<T extends AbstractFSWAL<?>> implemen
     }
   }
 
-  protected abstract T createWAL() throws IOException;
+  protected abstract @MustCall("close") T createWAL() throws IOException;
 
   protected abstract void doInit(Configuration conf) throws IOException;
 
   @Override
   public void shutdown() throws IOException {
-    T log = this.wal;
+    @MustCall("close") T log = this.wal;
     if (log != null) {
       log.shutdown();
     }
@@ -181,7 +182,7 @@ public abstract class AbstractFSWALProvider<T extends AbstractFSWAL<?>> implemen
 
   @Override
   public void close() throws IOException {
-    T log = this.wal;
+    @MustCall("close") T log = this.wal;
     if (log != null) {
       log.close();
     }
@@ -193,7 +194,7 @@ public abstract class AbstractFSWALProvider<T extends AbstractFSWAL<?>> implemen
    */
   @Override
   public long getNumLogFiles() {
-    T log = this.wal;
+    @MustCall("close") T log = this.wal;
     return log == null ? 0 : log.getNumLogFiles();
   }
 
@@ -203,7 +204,7 @@ public abstract class AbstractFSWALProvider<T extends AbstractFSWAL<?>> implemen
    */
   @Override
   public long getLogFileSize() {
-    T log = this.wal;
+    @MustCall("close") T log = this.wal;
     return log == null ? 0 : log.getLogFileSize();
   }
 

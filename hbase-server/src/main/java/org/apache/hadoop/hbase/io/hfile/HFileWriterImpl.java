@@ -599,6 +599,7 @@ public class HFileWriterImpl implements HFile.Writer {
   }
 
   @Override
+  @SuppressWarnings("argument.type.incompatible") // imprecision in type inference
   public void close() throws IOException {
     if (outputStream == null) {
       return;

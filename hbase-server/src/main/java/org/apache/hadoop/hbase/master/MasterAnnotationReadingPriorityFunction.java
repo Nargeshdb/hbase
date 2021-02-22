@@ -52,6 +52,7 @@ public class MasterAnnotationReadingPriorityFunction extends AnnotationReadingPr
 
   public static final int META_TRANSITION_QOS = 300;
 
+  @SuppressWarnings("argument.type.incompatible") // imprecision in type inference
   public MasterAnnotationReadingPriorityFunction(final RSRpcServices rpcServices) {
     this(rpcServices, rpcServices.getClass());
   }
