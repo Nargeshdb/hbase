@@ -433,7 +433,7 @@
       <groupId>org.glassfish.web</groupId>
       <artifactId>javax.servlet.jsp</artifactId>
     </dependency>
-      <!-- Also used by generated sources from our JSP -->
+    <!-- Also used by generated sources from our JSP -->
     <dependency>
       <groupId>javax.servlet.jsp</groupId>
       <artifactId>javax.servlet.jsp-api</artifactId>
@@ -798,10 +798,10 @@
           </plugin>
         </plugins>
         <pluginManagement>
-           <plugins>
-             <!--This plugin's configuration is used to store Eclipse m2e settings
-                 only. It has no influence on the Maven build itself and needs to
-                 be kept in plugin management, not in the actual plugins. -->
+          <plugins>
+            <!--This plugin's configuration is used to store Eclipse m2e settings
+                only. It has no influence on the Maven build itself and needs to
+                be kept in plugin management, not in the actual plugins. -->
             <plugin>
               <groupId>org.eclipse.m2e</groupId>
               <artifactId>lifecycle-mapping</artifactId>
@@ -818,10 +818,10 @@
                         </goals>
                       </pluginExecutionFilter>
                       <action>
-                          <execute>
-                            <runOnIncremental>false</runOnIncremental>
-                            <runOnConfiguration>true</runOnConfiguration>
-                          </execute>
+                        <execute>
+                          <runOnIncremental>false</runOnIncremental>
+                          <runOnConfiguration>true</runOnConfiguration>
+                        </execute>
                       </action>
                     </pluginExecution>
                     <pluginExecution>

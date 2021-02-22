@@ -242,11 +242,14 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <artifactId>object-construction-qual</artifactId>
-      <artifactId>must-call-qual</artifactId>
       <groupId>net.sridharan.objectconstruction</groupId>
+      <artifactId>must-call-qual</artifactId>
       <version>0.1.10-SNAPSHOT</version>
-      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>net.sridharan.objectconstruction</groupId>
+      <artifactId>object-construction-qual</artifactId>
+      <version>0.1.10-SNAPSHOT</version>
     </dependency>
   </dependencies>
 
