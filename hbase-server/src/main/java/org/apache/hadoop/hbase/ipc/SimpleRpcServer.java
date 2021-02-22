@@ -111,7 +111,7 @@ public class SimpleRpcServer extends RpcServer {
 
     private ExecutorService readPool;
 
-    @SuppressWarnings("objectconstruction:required.method.not.called") //FP: add annotation for Selector
+    @SuppressWarnings({"objectconstruction:required.method.not.called", "objectconstruction:reset.not.owning"}) //FP: add annotation for Selector :: FP: socket() is MCC with an owning field
     public Listener(final String name) throws IOException {
       super(name);
       // The backlog of requests that we will have the serversocket carry.

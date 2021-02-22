@@ -879,7 +879,7 @@ public class HFileBlock implements Cacheable {
      *
      * @return the stream the user can write their data into
      */
-    @SuppressWarnings({"objectconstruction:required.method.not.called", "missing.reset.mustcall"}) //TP: no null check for userDataStream
+    @SuppressWarnings({"objectconstruction:required.method.not.called", "objectconstruction:missing.reset.mustcall"}) //TP: no null check for userDataStream
     @NotOwning DataOutputStream startWriting(BlockType newBlockType)
         throws IOException {
       if (state == State.BLOCK_READY && startOffset != -1) {

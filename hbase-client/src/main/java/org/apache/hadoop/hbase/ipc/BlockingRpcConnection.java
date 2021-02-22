@@ -248,7 +248,7 @@ class BlockingRpcConnection extends RpcConnection implements Runnable {
   }
 
   // protected for write UT.
-  @SuppressWarnings({"objectconstruction:required.method.not.called", "mustcall:missing.reset.mustcal"}) // TP: no null check for socket
+  @SuppressWarnings({"objectconstruction:required.method.not.called", "objectconstruction:missing.reset.mustcall"}) // TP: no null check for socket
   protected void setupConnection() throws IOException {
     short ioFailures = 0;
     short timeoutFailures = 0;

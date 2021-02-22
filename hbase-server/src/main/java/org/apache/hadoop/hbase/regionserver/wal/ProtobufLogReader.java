@@ -206,6 +206,7 @@ public class ProtobufLogReader extends ReaderBase {
      return new WALHdrContext(WALHdrResult.SUCCESS, clsName);
   }
 
+  @SuppressWarnings("objectconstruction:incompatible.reset.mustcall") // FP: close() closes inputStream
   @ResetMustCall("this.inputStream")
   private String initInternal(@Owning FSDataInputStream stream, boolean isFirst)
       throws IOException {
