@@ -868,7 +868,7 @@ public class HFileBlockIndex {
      * @return the buffered input stream or wrapped byte input stream
      * @throws IOException
      */
-    @NotOwning public DataInputStream readRootIndex(HFileBlock blk, final int numEntries) throws IOException {
+    @MustCall({}) public DataInputStream readRootIndex(HFileBlock blk, final int numEntries) throws IOException {
       DataInputStream in = blk.getByteStream();
       readRootIndex(in, numEntries);
       return in;

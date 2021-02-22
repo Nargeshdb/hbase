@@ -53,6 +53,7 @@ import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.hbase.util.ChecksumType;
 import org.apache.hadoop.hbase.util.ClassSize;
 import org.apache.yetus.audience.InterfaceAudience;
+import org.checkerframework.checker.mustcall.qual.MustCall;
 import org.checkerframework.checker.mustcall.qual.ResetMustCall;
 import org.checkerframework.checker.objectconstruction.qual.NotOwning;
 import org.checkerframework.checker.objectconstruction.qual.Owning;
@@ -712,7 +713,7 @@ public class HFileBlock implements Cacheable {
   /**
    * @return a byte stream reading the data + checksum of this block
    */
-  @NotOwning DataInputStream getByteStream() {
+  @MustCall({}) DataInputStream getByteStream() {
     ByteBuff dup = this.buf.duplicate();
     dup.position(this.headerSize());
     return new DataInputStream(new ByteBuffInputStream(dup));
@@ -878,8 +879,7 @@ public class HFileBlock implements Cacheable {
      *
      * @return the stream the user can write their data into
      */
-    @SuppressWarnings("objectconstruction:required.method.not.called") //TP: no null check for userDataStream
-    @ResetMustCall("this.userDataStream")
+    @SuppressWarnings({"objectconstruction:required.method.not.called", "missing.reset.mustcall"}) //TP: no null check for userDataStream
     @NotOwning DataOutputStream startWriting(BlockType newBlockType)
         throws IOException {
       if (state == State.BLOCK_READY && startOffset != -1) {
