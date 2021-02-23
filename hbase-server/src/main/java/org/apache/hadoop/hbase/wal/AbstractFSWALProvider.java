@@ -80,7 +80,7 @@ public abstract class AbstractFSWALProvider<T extends AbstractFSWAL<?>> implemen
     void init(FileSystem fs, Path path, Configuration c, FSDataInputStream s) throws IOException;
   }
 
-  protected volatile @MustCall("close") T wal;
+  protected volatile T wal;
   protected WALFactory factory;
   protected Configuration conf;
   protected List<WALActionsListener> listeners = new ArrayList<>();
@@ -140,8 +140,8 @@ public abstract class AbstractFSWALProvider<T extends AbstractFSWAL<?>> implemen
   }
 
   @Override
-  public @MustCall("close") T getWAL(RegionInfo region) throws IOException {
-    @MustCall("close") T walCopy = wal;
+  public T getWAL(RegionInfo region) throws IOException {
+    T walCopy = wal;
     if (walCopy != null) {
       return walCopy;
     }
@@ -168,13 +168,13 @@ public abstract class AbstractFSWALProvider<T extends AbstractFSWAL<?>> implemen
     }
   }
 
-  protected abstract @MustCall("close") T createWAL() throws IOException;
+  protected abstract T createWAL() throws IOException;
 
   protected abstract void doInit(Configuration conf) throws IOException;
 
   @Override
   public void shutdown() throws IOException {
-    @MustCall("close") T log = this.wal;
+    T log = this.wal;
     if (log != null) {
       log.shutdown();
     }
@@ -182,7 +182,7 @@ public abstract class AbstractFSWALProvider<T extends AbstractFSWAL<?>> implemen
 
   @Override
   public void close() throws IOException {
-    @MustCall("close") T log = this.wal;
+    T log = this.wal;
     if (log != null) {
       log.close();
     }
@@ -194,7 +194,7 @@ public abstract class AbstractFSWALProvider<T extends AbstractFSWAL<?>> implemen
    */
   @Override
   public long getNumLogFiles() {
-    @MustCall("close") T log = this.wal;
+    T log = this.wal;
     return log == null ? 0 : log.getNumLogFiles();
   }
 
@@ -204,7 +204,7 @@ public abstract class AbstractFSWALProvider<T extends AbstractFSWAL<?>> implemen
    */
   @Override
   public long getLogFileSize() {
-    @MustCall("close") T log = this.wal;
+    T log = this.wal;
     return log == null ? 0 : log.getLogFileSize();
   }
 
