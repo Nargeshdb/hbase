@@ -160,6 +160,7 @@ public class ProtobufLogReader extends ReaderBase {
   }
 
   @Override
+  @ResetMustCall("this")
   public void reset() throws IOException {
     String clsName = initInternal(null, false);
     initAfterCompression(clsName); // We need a new decoder (at least).
@@ -173,6 +174,7 @@ public class ProtobufLogReader extends ReaderBase {
   }
 
   @Override
+  @ResetMustCall("this")
   protected String initReader(FSDataInputStream stream) throws IOException {
     return initInternal(stream, true);
   }
@@ -206,8 +208,7 @@ public class ProtobufLogReader extends ReaderBase {
      return new WALHdrContext(WALHdrResult.SUCCESS, clsName);
   }
 
-  @SuppressWarnings("objectconstruction:incompatible.reset.mustcall") // FP: close() closes inputStream
-  @ResetMustCall("this.inputStream")
+  @ResetMustCall("this")
   private String initInternal(@Owning FSDataInputStream stream, boolean isFirst)
       throws IOException {
     close();
