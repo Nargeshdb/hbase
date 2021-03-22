@@ -42,7 +42,7 @@ import org.apache.hadoop.hbase.wal.WAL.Entry;
 import org.apache.yetus.audience.InterfaceAudience;
 
 import org.checkerframework.checker.calledmethods.qual.EnsuresCalledMethods;
-import org.checkerframework.checker.mustcall.qual.ResetMustCall;
+import org.checkerframework.checker.mustcall.qual.CreatesObligation;
 import org.checkerframework.checker.objectconstruction.qual.Owning;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -160,7 +160,7 @@ public class ProtobufLogReader extends ReaderBase {
   }
 
   @Override
-  @ResetMustCall("this")
+  @CreatesObligation("this")
   public void reset() throws IOException {
     String clsName = initInternal(null, false);
     initAfterCompression(clsName); // We need a new decoder (at least).
@@ -174,7 +174,7 @@ public class ProtobufLogReader extends ReaderBase {
   }
 
   @Override
-  @ResetMustCall("this")
+  @CreatesObligation("this")
   protected String initReader(FSDataInputStream stream) throws IOException {
     return initInternal(stream, true);
   }
@@ -208,7 +208,7 @@ public class ProtobufLogReader extends ReaderBase {
      return new WALHdrContext(WALHdrResult.SUCCESS, clsName);
   }
 
-  @ResetMustCall("this")
+  @CreatesObligation("this")
   private String initInternal(@Owning FSDataInputStream stream, boolean isFirst)
       throws IOException {
     close();

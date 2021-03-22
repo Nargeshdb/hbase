@@ -7,12 +7,12 @@ import org.checkerframework.common.returnsreceiver.qual.*;
 @org.apache.hadoop.classification.InterfaceAudience.Public
 @org.apache.hadoop.classification.InterfaceStability.Evolving
 interface CompressionCodec {
-    @MustCallChoice CompressionOutputStream createOutputStream(@MustCallChoice OutputStream arg0) throws IOException;
-    @MustCallChoice CompressionOutputStream createOutputStream(@MustCallChoice OutputStream arg0, Compressor arg1) throws IOException;
+    @MustCallAlias CompressionOutputStream createOutputStream(@MustCallAlias OutputStream arg0) throws IOException;
+    @MustCallAlias CompressionOutputStream createOutputStream(@MustCallAlias OutputStream arg0, Compressor arg1) throws IOException;
     Class<? extends Compressor> getCompressorType();
     Compressor createCompressor();
-    @MustCallChoice CompressionInputStream createInputStream(@MustCallChoice InputStream arg0) throws IOException;
-    @MustCallChoice CompressionInputStream createInputStream(@MustCallChoice InputStream arg0, Decompressor arg1) throws IOException;
+    @MustCallAlias CompressionInputStream createInputStream(@MustCallAlias InputStream arg0) throws IOException;
+    @MustCallAlias CompressionInputStream createInputStream(@MustCallAlias InputStream arg0, Decompressor arg1) throws IOException;
     Class<? extends Decompressor> getDecompressorType();
     Decompressor createDecompressor();
     String getDefaultExtension();
@@ -32,7 +32,7 @@ import org.checkerframework.common.returnsreceiver.qual.*;
 class CompressionInputStream extends InputStream implements Seekable {
     protected final InputStream in;
     protected long maxAvailableData;
-    protected @MustCallChoice CompressionInputStream(@MustCallChoice InputStream arg0) throws IOException;
+    protected @MustCallAlias CompressionInputStream(@MustCallAlias InputStream arg0) throws IOException;
     void close() throws IOException;
     int read(byte[] arg0, int arg1, int arg2) throws IOException;
     void resetState() throws IOException;
@@ -50,8 +50,8 @@ import org.checkerframework.common.returnsreceiver.qual.*;
 @org.apache.hadoop.classification.InterfaceAudience.Public
 @org.apache.hadoop.classification.InterfaceStability.Stable
 class FSDataInputStream extends DataInputStream implements Seekable, PositionedReadable, ByteBufferReadable, HasFileDescriptor, CanSetDropBehind, CanSetReadahead, HasEnhancedByteBufferAccess, CanUnbuffer, StreamCapabilities {
-    FSDataInputStream(@MustCallChoice InputStream arg0);
-    @MustCallChoice InputStream getWrappedStream();
+    FSDataInputStream(@MustCallAlias InputStream arg0);
+    @MustCallAlias InputStream getWrappedStream();
 }
 
 package org.apache.hbase.thirdparty.com.google.protobuf;
@@ -132,8 +132,8 @@ import org.checkerframework.common.returnsreceiver.qual.*;
 @org.apache.hadoop.classification.InterfaceAudience.Public
 @org.apache.hadoop.classification.InterfaceStability.Stable
 class FSDataOutputStream extends DataOutputStream implements Syncable, CanSetDropBehind, StreamCapabilities {
-    @MustCallChoice FSDataOutputStream(@MustCallChoice OutputStream arg0, Statistics arg1);
-    @MustCallChoice FSDataOutputStream(@MustCallChoice OutputStream arg0, Statistics arg1, long arg2);
+    @MustCallAlias FSDataOutputStream(@MustCallAlias OutputStream arg0, Statistics arg1);
+    @MustCallAlias FSDataOutputStream(@MustCallAlias OutputStream arg0, Statistics arg1, long arg2);
     long getPos();
     void close() throws IOException;
     String toString();
@@ -153,7 +153,7 @@ import org.checkerframework.common.returnsreceiver.qual.*;
 
 @org.apache.hbase.thirdparty.com.google.common.annotations.GwtIncompatible
 class ByteStreams {
-@MustCallChoice static InputStream limit(@MustCallChoice InputStream arg0, long arg1);
+@MustCallAlias static InputStream limit(@MustCallAlias InputStream arg0, long arg1);
 }
 
 package org.apache.hadoop.security;
@@ -166,8 +166,8 @@ import org.checkerframework.common.returnsreceiver.qual.*;
 @org.apache.hadoop.classification.InterfaceStability.Evolving
 class SaslInputStream extends InputStream implements ReadableByteChannel {
     static final Logger LOG;
-    @MustCallChoice SaslInputStream(@MustCallChoice InputStream arg0, SaslServer arg1);
-    @MustCallChoice SaslInputStream(@MustCallChoice InputStream arg0, SaslClient arg1);
+    @MustCallAlias SaslInputStream(@MustCallAlias InputStream arg0, SaslServer arg1);
+    @MustCallAlias SaslInputStream(@MustCallAlias InputStream arg0, SaslClient arg1);
     int read() throws IOException;
     int read(byte[] arg0) throws IOException;
     int read(byte[] arg0, int arg1, int arg2) throws IOException;
@@ -204,10 +204,10 @@ class NetUtils {
     static List<String[]> getAllStaticResolutions();
     static InetSocketAddress getConnectAddress(Server arg0);
     static InetSocketAddress getConnectAddress(InetSocketAddress arg0);
-    @MustCallChoice static SocketInputWrapper getInputStream(@MustCallChoice Socket arg0) throws IOException;
-    @MustCallChoice static SocketInputWrapper getInputStream(@MustCallChoice Socket arg0, long arg1) throws IOException;
-    @MustCallChoice static OutputStream getOutputStream(@MustCallChoice Socket arg0) throws IOException;
-    @MustCallChoice static OutputStream getOutputStream(@MustCallChoice Socket arg0, long arg1) throws IOException;
+    @MustCallAlias static SocketInputWrapper getInputStream(@MustCallAlias Socket arg0) throws IOException;
+    @MustCallAlias static SocketInputWrapper getInputStream(@MustCallAlias Socket arg0, long arg1) throws IOException;
+    @MustCallAlias static OutputStream getOutputStream(@MustCallAlias Socket arg0) throws IOException;
+    @MustCallAlias static OutputStream getOutputStream(@MustCallAlias Socket arg0, long arg1) throws IOException;
     static void connect(Socket arg0, SocketAddress arg1, int arg2) throws IOException;
     static void connect(Socket arg0, SocketAddress arg1, SocketAddress arg2, int arg3) throws IOException;
     static String normalizeHostName(String arg0);

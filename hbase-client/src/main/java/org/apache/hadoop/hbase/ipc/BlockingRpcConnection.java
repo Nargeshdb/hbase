@@ -65,7 +65,8 @@ import org.apache.hadoop.security.UserGroupInformation;
 import org.apache.hadoop.util.StringUtils;
 import org.apache.htrace.core.TraceScope;
 import org.apache.yetus.audience.InterfaceAudience;
-import org.checkerframework.checker.mustcall.qual.ResetMustCall;
+import org.checkerframework.checker.calledmethods.qual.EnsuresCalledMethods;
+import org.checkerframework.checker.mustcall.qual.CreatesObligation;
 import org.checkerframework.checker.objectconstruction.qual.Owning;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -248,8 +249,8 @@ class BlockingRpcConnection extends RpcConnection implements Runnable {
   }
 
   // protected for write UT.
-  @SuppressWarnings({"objectconstruction:required.method.not.called"}) // TP: no null check for socket
-  @ResetMustCall("this")
+  @SuppressWarnings({"objectconstruction:required.method.not.called"}) //TP: no null check for socket
+  @CreatesObligation("this")
   protected void setupConnection() throws IOException {
     short ioFailures = 0;
     short timeoutFailures = 0;
@@ -293,6 +294,8 @@ class BlockingRpcConnection extends RpcConnection implements Runnable {
    * @param ioe failure reason
    * @throws IOException if max number of retries is reached
    */
+  @SuppressWarnings("objectconstruction:contracts.postcondition.not.satisfied")
+  @EnsuresCalledMethods(value = "this.socket", methods = "close")
   private void handleConnectionFailure(int curRetries, int maxRetries, IOException ioe)
       throws IOException {
     closeSocket();
@@ -387,6 +390,8 @@ class BlockingRpcConnection extends RpcConnection implements Runnable {
    * first time -- for those, we want to fail-fast.
    * </p>
    */
+  @SuppressWarnings("objectconstruction:contracts.postcondition.not.satisfied")
+  @EnsuresCalledMethods(value = {"this.socket"}, methods = {"close"})
   private void handleSaslConnectionFailure(final int currRetries, final int maxRetries,
       final Exception ex, final UserGroupInformation user)
       throws IOException, InterruptedException {
@@ -436,6 +441,7 @@ class BlockingRpcConnection extends RpcConnection implements Runnable {
     });
   }
 
+  @CreatesObligation("this")
   private void setupIOstreams() throws IOException {
     if (socket != null) {
       // The connection is already available. Perfect.
@@ -606,6 +612,7 @@ class BlockingRpcConnection extends RpcConnection implements Runnable {
    * the Connection thread, but by other threads.
    * @see #readResponse()
    */
+  @CreatesObligation("this")
   private void writeRequest(Call call) throws IOException {
     ByteBuf cellBlock = null;
     try {
@@ -740,6 +747,7 @@ class BlockingRpcConnection extends RpcConnection implements Runnable {
 
   // just close socket input and output.
   @SuppressWarnings("objectconstruction:required.method.not.called") // FP: socket is assigned to null after call close on socket
+  @EnsuresCalledMethods(value = {"this.socket"}, methods = {"close"})
   private void closeSocket() {
     IOUtils.closeStream(out);
     IOUtils.closeStream(in);
@@ -750,6 +758,8 @@ class BlockingRpcConnection extends RpcConnection implements Runnable {
   }
 
   // close socket, reader, and clean up all pending calls.
+  @SuppressWarnings("objectconstruction:contracts.postcondition.not.satisfied")
+  @EnsuresCalledMethods(value = "this.socket", methods = "close")
   private void closeConn(IOException e) {
     if (thread == null) {
       return;

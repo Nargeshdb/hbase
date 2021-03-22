@@ -60,7 +60,7 @@ import org.apache.hadoop.security.authorize.ServiceAuthorizationManager;
 import org.apache.hbase.thirdparty.com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.checkerframework.checker.calledmethods.qual.EnsuresCalledMethods;
 import org.checkerframework.checker.mustcall.qual.MustCall;
-import org.checkerframework.checker.mustcall.qual.ResetMustCall;
+import org.checkerframework.checker.mustcall.qual.CreatesObligation;
 import org.checkerframework.checker.objectconstruction.qual.Owning;
 
 /**
@@ -532,7 +532,7 @@ public class SimpleRpcServer extends RpcServer {
    * @throws UnknownHostException if the address isn't a valid host name
    * @throws IOException other random errors from bind
    */
-  @ResetMustCall("#1")
+  @CreatesObligation("#1")
   public static void bind(ServerSocket socket, InetSocketAddress address,
                           int backlog) throws IOException {
     try {

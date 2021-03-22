@@ -21,7 +21,7 @@ import java.io.OutputStream;
 import java.security.Key;
 
 import org.apache.yetus.audience.InterfaceAudience;
-import org.checkerframework.checker.mustcall.qual.MustCallChoice;
+import org.checkerframework.checker.mustcall.qual.MustCallAlias;
 
 /**
  * Encryptors apply a cipher to an OutputStream to produce ciphertext.
@@ -62,7 +62,7 @@ public interface Encryptor {
    * Create a stream for encryption
    * @param out
    */
-  @MustCallChoice public OutputStream createEncryptionStream(@MustCallChoice OutputStream out);
+  @MustCallAlias public OutputStream createEncryptionStream(@MustCallAlias OutputStream out);
 
   /**
    * Reset state, reinitialize with the key and iv

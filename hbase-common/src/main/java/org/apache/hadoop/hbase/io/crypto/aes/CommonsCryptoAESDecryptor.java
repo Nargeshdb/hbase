@@ -29,7 +29,7 @@ import org.apache.yetus.audience.InterfaceAudience;
 import org.apache.yetus.audience.InterfaceStability;
 
 import org.apache.hbase.thirdparty.com.google.common.base.Preconditions;
-import org.checkerframework.checker.mustcall.qual.MustCallChoice;
+import org.checkerframework.checker.mustcall.qual.MustCallAlias;
 
 @InterfaceAudience.Private
 @InterfaceStability.Evolving
@@ -69,7 +69,7 @@ public class CommonsCryptoAESDecryptor implements Decryptor {
   }
 
   @Override
-  @MustCallChoice public InputStream createDecryptionStream(@MustCallChoice InputStream in) {
+  @MustCallAlias public InputStream createDecryptionStream(@MustCallAlias InputStream in) {
     try {
       return new CryptoInputStream(cipherMode, properties, in, key, new
           IvParameterSpec(iv));

@@ -54,7 +54,7 @@ import org.apache.hadoop.hbase.util.ChecksumType;
 import org.apache.hadoop.hbase.util.ClassSize;
 import org.apache.yetus.audience.InterfaceAudience;
 import org.checkerframework.checker.mustcall.qual.MustCall;
-import org.checkerframework.checker.mustcall.qual.ResetMustCall;
+//import org.checkerframework.checker.mustcall.qual.CreatesObligation;
 import org.checkerframework.checker.objectconstruction.qual.NotOwning;
 import org.checkerframework.checker.objectconstruction.qual.Owning;
 import org.slf4j.Logger;
@@ -879,7 +879,7 @@ public class HFileBlock implements Cacheable {
      *
      * @return the stream the user can write their data into
      */
-    @SuppressWarnings({"objectconstruction:required.method.not.called", "objectconstruction:missing.reset.mustcall"}) //TP: no null check for userDataStream
+    @SuppressWarnings({"objectconstruction:required.method.not.called", "objectconstruction:missing.create.obligation"}) //TP: no null check for userDataStream
     @NotOwning DataOutputStream startWriting(BlockType newBlockType)
         throws IOException {
       if (state == State.BLOCK_READY && startOffset != -1) {
