@@ -746,7 +746,6 @@ class BlockingRpcConnection extends RpcConnection implements Runnable {
   }
 
   // just close socket input and output.
-  @SuppressWarnings("objectconstruction:required.method.not.called") // FP: socket is assigned to null after call close on socket
   @EnsuresCalledMethods(value = {"this.socket"}, methods = {"close"})
   private void closeSocket() {
     IOUtils.closeStream(out);
