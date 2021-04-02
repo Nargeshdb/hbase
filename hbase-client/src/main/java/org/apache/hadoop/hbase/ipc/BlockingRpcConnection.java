@@ -67,6 +67,7 @@ import org.apache.htrace.core.TraceScope;
 import org.apache.yetus.audience.InterfaceAudience;
 import org.checkerframework.checker.calledmethods.qual.EnsuresCalledMethods;
 import org.checkerframework.checker.mustcall.qual.CreatesObligation;
+import org.checkerframework.checker.mustcall.qual.MustCall;
 import org.checkerframework.checker.objectconstruction.qual.Owning;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,6 +90,7 @@ import org.apache.hadoop.hbase.shaded.protobuf.generated.RPCProtos.ResponseHeade
  * order.
  */
 @InterfaceAudience.Private
+@MustCall("shutdown")
 class BlockingRpcConnection extends RpcConnection implements Runnable {
 
   private static final Logger LOG = LoggerFactory.getLogger(BlockingRpcConnection.class);
@@ -174,6 +176,7 @@ class BlockingRpcConnection extends RpcConnection implements Runnable {
      * Reads the call from the queue, write them on the socket.
      */
     @Override
+    @CreatesObligation("this")
     public void run() {
       synchronized (BlockingRpcConnection.this) {
         while (!closed) {
@@ -600,6 +603,7 @@ class BlockingRpcConnection extends RpcConnection implements Runnable {
     this.out = new DataOutputStream(new BufferedOutputStream(saslRpcClient.getOutputStream()));
   }
 
+  @CreatesObligation("this")
   private void tracedWriteRequest(Call call) throws IOException {
     try (TraceScope ignored = TraceUtil.createTrace("RpcClientImpl.tracedWriteRequest",
           call.span)) {
@@ -777,6 +781,7 @@ class BlockingRpcConnection extends RpcConnection implements Runnable {
 
   // release all resources, the connection will not be used any more.
   @Override
+  @EnsuresCalledMethods(value = "this.socket", methods = "close")
   public synchronized void shutdown() {
     closed = true;
     if (callSender != null) {
@@ -809,6 +814,7 @@ class BlockingRpcConnection extends RpcConnection implements Runnable {
     }, new CancellationCallback() {
 
       @Override
+      @CreatesObligation("this")
       public void run(boolean cancelled) throws IOException {
         if (cancelled) {
           setCancelled(call);
