@@ -244,12 +244,12 @@
     <dependency>
       <groupId>net.sridharan.objectconstruction</groupId>
       <artifactId>must-call-qual</artifactId>
-      <version>0.1.11</version>
+      <version>0.1.12-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>net.sridharan.objectconstruction</groupId>
       <artifactId>object-construction-qual</artifactId>
-      <version>0.1.11</version>
+      <version>0.1.12-SNAPSHOT</version>
     </dependency>
   </dependencies>
 

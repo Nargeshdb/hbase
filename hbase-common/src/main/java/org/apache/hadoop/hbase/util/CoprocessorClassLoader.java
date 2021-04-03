@@ -41,6 +41,7 @@ import org.apache.hadoop.fs.FileUtil;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IOUtils;
 import org.apache.yetus.audience.InterfaceAudience;
+import org.checkerframework.checker.objectconstruction.qual.NotOwning;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -237,6 +238,7 @@ public class CoprocessorClassLoader extends ClassLoaderBase {
    * @return a CoprocessorClassLoader for the coprocessor jar path
    * @throws IOException
    */
+  @NotOwning
   public static CoprocessorClassLoader getClassLoader(final Path path,
       final ClassLoader parent, final String pathPrefix,
       final Configuration conf) throws IOException {
