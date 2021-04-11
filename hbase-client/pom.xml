@@ -59,12 +59,12 @@
                 <path>
                   <groupId>net.sridharan.objectconstruction</groupId>
                   <artifactId>object-construction-checker</artifactId>
-                  <version>0.1.12-SNAPSHOT</version>
+                  <version>0.1.12</version>
                 </path>
                 <path>
                   <groupId>org.checkerframework</groupId>
                   <artifactId>checker</artifactId>
-                  <version>3.11.0</version>
+                  <version>3.12.0</version>
                 </path>
               </annotationProcessorPaths>
               <compilerArgs combine.children="append">
@@ -163,7 +163,7 @@
     <dependency>
       <groupId>org.checkerframework</groupId>
       <artifactId>checker-qual</artifactId>
-      <version>3.11.0</version>
+      <version>3.12.0</version>
     </dependency>
     <dependency>
       <groupId>com.google.errorprone</groupId>
@@ -174,12 +174,12 @@
     <dependency>
       <groupId>net.sridharan.objectconstruction</groupId>
       <artifactId>object-construction-qual</artifactId>
-      <version>0.1.12-SNAPSHOT</version>
+      <version>0.1.12</version>
     </dependency>
     <dependency>
       <groupId>net.sridharan.objectconstruction</groupId>
       <artifactId>must-call-qual</artifactId>
-      <version>0.1.12-SNAPSHOT</version>
+      <version>0.1.12</version>
     </dependency>
     <dependency>
       <groupId>com.github.stephenc.findbugs</groupId>
