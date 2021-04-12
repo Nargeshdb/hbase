@@ -69,6 +69,7 @@ import org.checkerframework.checker.calledmethods.qual.EnsuresCalledMethods;
 import org.checkerframework.checker.mustcall.qual.CreatesObligation;
 import org.checkerframework.checker.mustcall.qual.MustCall;
 import org.checkerframework.checker.objectconstruction.qual.Owning;
+import org.checkerframework.checker.objectconstruction.qual.RequiresCalledMethods;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.hbase.thirdparty.com.google.protobuf.Message;
@@ -252,8 +253,9 @@ class BlockingRpcConnection extends RpcConnection implements Runnable {
   }
 
   // protected for write UT.
-  @SuppressWarnings({"objectconstruction:required.method.not.called"}) //TP: no null check for socket
+  @SuppressWarnings({"objectconstruction:required.method.not.called"}) // ?????
   @CreatesObligation("this")
+  @RequiresCalledMethods(value = {"this.socket"}, methods = {"close"})
   protected void setupConnection() throws IOException {
     short ioFailures = 0;
     short timeoutFailures = 0;
