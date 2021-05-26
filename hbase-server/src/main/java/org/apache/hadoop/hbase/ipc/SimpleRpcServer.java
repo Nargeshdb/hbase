@@ -59,6 +59,7 @@ import org.apache.hadoop.security.authorize.ServiceAuthorizationManager;
 
 import org.apache.hbase.thirdparty.com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.checkerframework.checker.calledmethods.qual.EnsuresCalledMethods;
+import org.checkerframework.checker.mustcall.qual.InheritableMustCall;
 import org.checkerframework.checker.mustcall.qual.MustCall;
 import org.checkerframework.checker.mustcall.qual.CreatesObligation;
 import org.checkerframework.checker.objectconstruction.qual.Owning;
@@ -101,17 +102,18 @@ public class SimpleRpcServer extends RpcServer {
   protected SimpleRpcServerResponder responder = null;
 
   /** Listens on the socket. Creates jobs for the handler threads*/
+  @InheritableMustCall({"run"})
   private class Listener extends Thread {
 
-    private @Owning ServerSocketChannel acceptChannel = null; //the accept channel
-    private @Owning Selector selector = null; //the selector that we use for the server
+    private final @Owning ServerSocketChannel acceptChannel; //the accept channel
+    private final @Owning Selector selector; //the selector that we use for the server
     private Reader[] readers = null;
     private int currentReader = 0;
     private final int readerPendingConnectionQueueLength;
 
     private ExecutorService readPool;
 
-    @SuppressWarnings({"objectconstruction:required.method.not.called", "objectconstruction:reset.not.owning"}) //FP: add annotation for Selector :: FP: socket() is MCC with an owning field :: FP: acceptChannel.socket() is MCC with an owning field
+    @SuppressWarnings("objectconstruction:reset.not.owning") // FP: https://github.com/kelloggm/object-construction-checker/blob/master/object-construction-checker/tests/socket/BindChannel.java
     public Listener(final String name) throws IOException {
       super(name);
       // The backlog of requests that we will have the serversocket carry.
@@ -149,7 +151,6 @@ public class SimpleRpcServer extends RpcServer {
       this.setName("Listener,port=" + port);
       this.setDaemon(true);
     }
-
 
     @MustCall({"run"})
     private class Reader implements Runnable {
@@ -225,7 +226,8 @@ public class SimpleRpcServer extends RpcServer {
     @edu.umd.cs.findbugs.annotations.SuppressWarnings(value="IS2_INCONSISTENT_SYNC",
       justification="selector access is not synchronized; seems fine but concerned changing " +
         "it will have per impact")
-    @SuppressWarnings("objectconstruction:required.method.not.called") //FP: assign to null after closing
+    @SuppressWarnings("objectconstruction:contracts.postcondition.not.satisfied") //TP: if acceptChannel.close() throws an IOException, then selector remains open.
+    @EnsuresCalledMethods(value = {"this.acceptChannel", "this.selector"}, methods = "close")
     public void run() {
       LOG.info(getName() + ": starting");
       connectionManager.startIdleScan();
@@ -281,8 +283,8 @@ public class SimpleRpcServer extends RpcServer {
           if (LOG.isTraceEnabled()) LOG.trace("ignored", ignored);
         }
 
-        selector= null;
-        acceptChannel= null;
+//        selector= null;
+//        acceptChannel= null;
 
         // close all connections
         connectionManager.stopIdleScan();

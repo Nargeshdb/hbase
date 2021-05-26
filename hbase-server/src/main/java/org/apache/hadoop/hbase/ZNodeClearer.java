@@ -57,6 +57,7 @@ public final class ZNodeClearer {
   /**
    * Logs the errors without failing on exception.
    */
+  @SuppressWarnings("objectconstruction:required.method.not.called") // FP: fstream is @MCA with out and both are closed in try block.
   public static void writeMyEphemeralNodeOnDisk(String fileContent) {
     String fileName = ZNodeClearer.getMyEphemeralNodeFileName();
     if (fileName == null) {

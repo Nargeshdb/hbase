@@ -244,7 +244,6 @@ public class HBaseSaslRpcClient extends AbstractHBaseSaslRpcClient {
     }
 
     // unwrap messages with Crypto AES
-    @SuppressWarnings("objectconstruction:required.method.not.called") // FP: in is a field in FilterInputStream and this class doesn't have responsibility to call close on it
     private void readNextRpcPacket() throws IOException {
       LOG.debug("reading next wrapped RPC packet");
       DataInputStream dis = new DataInputStream(in);
@@ -282,7 +281,6 @@ public class HBaseSaslRpcClient extends AbstractHBaseSaslRpcClient {
       super(out);
     }
     @Override
-    @SuppressWarnings("objectconstruction:required.method.not.called") // FP: out is a field in FilterInputStream and this class doesn't have responsibility to call close on it
     public void write(byte[] buf, int off, int len) throws IOException {
       if (LOG.isDebugEnabled()) {
         LOG.debug("wrapping token of length:" + len);

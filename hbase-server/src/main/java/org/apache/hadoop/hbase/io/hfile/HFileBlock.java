@@ -793,7 +793,7 @@ public class HFileBlock implements Cacheable {
      * A stream that we write uncompressed bytes to, which compresses them and
      * writes them to {@link #baosInMemory}.
      */
-    @Owning private DataOutputStream userDataStream;
+    private DataOutputStream userDataStream;
 
     /**
      * Bytes to be written to the file system, including the header. Compressed
@@ -879,7 +879,6 @@ public class HFileBlock implements Cacheable {
      *
      * @return the stream the user can write their data into
      */
-    @SuppressWarnings({"objectconstruction:required.method.not.called", "objectconstruction:missing.create.obligation"}) //TP: no null check for userDataStream
     @NotOwning DataOutputStream startWriting(BlockType newBlockType)
         throws IOException {
       if (state == State.BLOCK_READY && startOffset != -1) {

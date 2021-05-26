@@ -67,7 +67,7 @@ import org.apache.htrace.core.TraceScope;
 import org.apache.yetus.audience.InterfaceAudience;
 import org.checkerframework.checker.calledmethods.qual.EnsuresCalledMethods;
 import org.checkerframework.checker.mustcall.qual.CreatesObligation;
-import org.checkerframework.checker.mustcall.qual.MustCall;
+import org.checkerframework.checker.mustcall.qual.InheritableMustCall;
 import org.checkerframework.checker.objectconstruction.qual.Owning;
 import org.checkerframework.checker.objectconstruction.qual.RequiresCalledMethods;
 import org.slf4j.Logger;
@@ -91,7 +91,7 @@ import org.apache.hadoop.hbase.shaded.protobuf.generated.RPCProtos.ResponseHeade
  * order.
  */
 @InterfaceAudience.Private
-@MustCall("shutdown")
+@InheritableMustCall("shutdown")
 class BlockingRpcConnection extends RpcConnection implements Runnable {
 
   private static final Logger LOG = LoggerFactory.getLogger(BlockingRpcConnection.class);
@@ -177,7 +177,7 @@ class BlockingRpcConnection extends RpcConnection implements Runnable {
      * Reads the call from the queue, write them on the socket.
      */
     @Override
-    @CreatesObligation("this")
+    @SuppressWarnings("objectconstruction:reset.not.owning") // CallSender isn't a JDK class
     public void run() {
       synchronized (BlockingRpcConnection.this) {
         while (!closed) {
@@ -253,7 +253,6 @@ class BlockingRpcConnection extends RpcConnection implements Runnable {
   }
 
   // protected for write UT.
-  @SuppressWarnings({"objectconstruction:required.method.not.called"}) // ?????
   @CreatesObligation("this")
   @RequiresCalledMethods(value = {"this.socket"}, methods = {"close"})
   protected void setupConnection() throws IOException {
@@ -299,7 +298,7 @@ class BlockingRpcConnection extends RpcConnection implements Runnable {
    * @param ioe failure reason
    * @throws IOException if max number of retries is reached
    */
-  @SuppressWarnings("objectconstruction:contracts.postcondition.not.satisfied")
+  @SuppressWarnings("objectconstruction:contracts.postcondition.not.satisfied") // FP: can't verify that socket is closed in "closeSocket"
   @EnsuresCalledMethods(value = "this.socket", methods = "close")
   private void handleConnectionFailure(int curRetries, int maxRetries, IOException ioe)
       throws IOException {
@@ -395,7 +394,7 @@ class BlockingRpcConnection extends RpcConnection implements Runnable {
    * first time -- for those, we want to fail-fast.
    * </p>
    */
-  @SuppressWarnings("objectconstruction:contracts.postcondition.not.satisfied")
+  @SuppressWarnings("objectconstruction:contracts.postcondition.not.satisfied") // FP: can't verify that socket is closed in "closeSocket"
   @EnsuresCalledMethods(value = {"this.socket"}, methods = {"close"})
   private void handleSaslConnectionFailure(final int currRetries, final int maxRetries,
       final Exception ex, final UserGroupInformation user)
@@ -447,6 +446,7 @@ class BlockingRpcConnection extends RpcConnection implements Runnable {
   }
 
   @CreatesObligation("this")
+  @SuppressWarnings("objectconstruction:contracts.precondition.not.satisfied") //FP: There is null check for socket and while loop executes only once in regular exit path and close is called on exceptional paths
   private void setupIOstreams() throws IOException {
     if (socket != null) {
       // The connection is already available. Perfect.
@@ -605,7 +605,7 @@ class BlockingRpcConnection extends RpcConnection implements Runnable {
     this.out = new DataOutputStream(new BufferedOutputStream(saslRpcClient.getOutputStream()));
   }
 
-  @CreatesObligation("this")
+  @CreatesObligation
   private void tracedWriteRequest(Call call) throws IOException {
     try (TraceScope ignored = TraceUtil.createTrace("RpcClientImpl.tracedWriteRequest",
           call.span)) {
@@ -618,7 +618,7 @@ class BlockingRpcConnection extends RpcConnection implements Runnable {
    * the Connection thread, but by other threads.
    * @see #readResponse()
    */
-  @CreatesObligation("this")
+  @CreatesObligation
   private void writeRequest(Call call) throws IOException {
     ByteBuf cellBlock = null;
     try {
@@ -763,7 +763,7 @@ class BlockingRpcConnection extends RpcConnection implements Runnable {
   }
 
   // close socket, reader, and clean up all pending calls.
-  @SuppressWarnings("objectconstruction:contracts.postcondition.not.satisfied")
+  @SuppressWarnings("objectconstruction:contracts.postcondition.not.satisfied") // FP: when socket is connected, thread is not null
   @EnsuresCalledMethods(value = "this.socket", methods = "close")
   private void closeConn(IOException e) {
     if (thread == null) {
@@ -816,7 +816,7 @@ class BlockingRpcConnection extends RpcConnection implements Runnable {
     }, new CancellationCallback() {
 
       @Override
-      @CreatesObligation("this")
+      @SuppressWarnings("objectconstruction:reset.not.owning") // CancellationCallback isn't a JDK class
       public void run(boolean cancelled) throws IOException {
         if (cancelled) {
           setCancelled(call);

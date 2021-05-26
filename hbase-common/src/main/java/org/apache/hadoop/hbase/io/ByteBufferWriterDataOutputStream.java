@@ -24,6 +24,7 @@ import java.nio.ByteBuffer;
 
 import org.apache.hadoop.hbase.util.ByteBufferUtils;
 import org.apache.yetus.audience.InterfaceAudience;
+import org.checkerframework.checker.mustcall.qual.MustCallAlias;
 
 /**
  * Our extension of DataOutputStream which implements ByteBufferWriter
@@ -32,7 +33,7 @@ import org.apache.yetus.audience.InterfaceAudience;
 public class ByteBufferWriterDataOutputStream extends DataOutputStream
     implements ByteBufferWriter {
 
-  public ByteBufferWriterDataOutputStream(OutputStream out) {
+  public @MustCallAlias ByteBufferWriterDataOutputStream(@MustCallAlias OutputStream out) {
     super(out);
   }
 

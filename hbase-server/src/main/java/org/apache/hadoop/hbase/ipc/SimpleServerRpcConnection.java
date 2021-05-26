@@ -193,7 +193,7 @@ class SimpleServerRpcConnection extends ServerRpcConnection {
           // We need the InputStream because we want to read only the request header
           // instead of the whole rpc.
           ByteBuffer buf = ByteBuffer.allocate(1);
-          @MustCall({}) InputStream is = new InputStream() {
+          InputStream is = new InputStream() {
             @Override
             public int read() throws IOException {
               SimpleServerRpcConnection.this.rpcServer.channelRead(channel, buf);

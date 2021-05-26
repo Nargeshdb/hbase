@@ -92,7 +92,7 @@
                 <path>
                   <groupId>net.sridharan.objectconstruction</groupId>
                   <artifactId>object-construction-checker</artifactId>
-                  <version>0.1.12</version>
+                  <version>0.1.13</version>
                 </path>
                 <path>
                   <groupId>org.checkerframework</groupId>
@@ -304,12 +304,12 @@
     <dependency>
       <groupId>net.sridharan.objectconstruction</groupId>
       <artifactId>object-construction-qual</artifactId>
-      <version>0.1.12</version>
+      <version>0.1.13</version>
     </dependency>
     <dependency>
       <groupId>net.sridharan.objectconstruction</groupId>
       <artifactId>must-call-qual</artifactId>
-      <version>0.1.12</version>
+      <version>0.1.13</version>
     </dependency>
     <dependency>
       <groupId>org.apache.hbase.thirdparty</groupId>

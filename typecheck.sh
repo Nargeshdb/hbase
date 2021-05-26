@@ -1,1 +1,1 @@
-mvn --projects hbase-client --also-make clean install -DskipTests
+mvn --projects hbase-server --also-make clean install -DskipTests
