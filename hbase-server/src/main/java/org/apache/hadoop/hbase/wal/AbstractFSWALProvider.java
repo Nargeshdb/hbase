@@ -140,7 +140,6 @@ public abstract class AbstractFSWALProvider<T extends AbstractFSWAL<?>> implemen
   }
 
   @Override
-  @SuppressWarnings("mustcall:type.invalid.annotations.on.use") // FP: https://github.com/typetools/checker-framework/issues/979
   public T getWAL(RegionInfo region) throws IOException {
     T walCopy = wal;
     if (walCopy != null) {
@@ -174,7 +173,6 @@ public abstract class AbstractFSWALProvider<T extends AbstractFSWAL<?>> implemen
   protected abstract void doInit(Configuration conf) throws IOException;
 
   @Override
-  @SuppressWarnings("mustcall:type.invalid.annotations.on.use") // FP: https://github.com/typetools/checker-framework/issues/979
   public void shutdown() throws IOException {
     T log = this.wal;
     if (log != null) {
@@ -183,7 +181,6 @@ public abstract class AbstractFSWALProvider<T extends AbstractFSWAL<?>> implemen
   }
 
   @Override
-  @SuppressWarnings("mustcall:type.invalid.annotations.on.use") // FP: https://github.com/typetools/checker-framework/issues/979
   public void close() throws IOException {
     T log = this.wal;
     if (log != null) {
@@ -196,7 +193,6 @@ public abstract class AbstractFSWALProvider<T extends AbstractFSWAL<?>> implemen
    * number of files (rolled and active). if either of them aren't, count 0 for that provider.
    */
   @Override
-  @SuppressWarnings("mustcall:type.invalid.annotations.on.use") // FP: https://github.com/typetools/checker-framework/issues/979
   public long getNumLogFiles() {
     T log = this.wal;
     return log == null ? 0 : log.getNumLogFiles();
@@ -207,7 +203,6 @@ public abstract class AbstractFSWALProvider<T extends AbstractFSWAL<?>> implemen
    * size of files (only rolled). if either of them aren't, count 0 for that provider.
    */
   @Override
-  @SuppressWarnings("mustcall:type.invalid.annotations.on.use") // FP: https://github.com/typetools/checker-framework/issues/979
   public long getLogFileSize() {
     T log = this.wal;
     return log == null ? 0 : log.getLogFileSize();

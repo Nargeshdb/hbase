@@ -329,7 +329,7 @@ public class RegionCoprocessorHost
    * @param htd
    * @throws IOException
    */
-  @SuppressWarnings("objectconstruction:required.method.not.called") //TP: close is not called on cl :: TP: close is not called on cl
+  @SuppressWarnings("objectconstruction:required.method.not.called") //TP: close is not called on cl :: TP: close is not called on cl (DISAGREE: I only see one warning and I don't think cl needs to be closed.  Possibly just a false positive)
   public static void testTableCoprocessorAttrs(final Configuration conf,
       final TableDescriptor htd) throws IOException {
     String pathPrefix = UUID.randomUUID().toString();

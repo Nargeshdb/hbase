@@ -220,7 +220,7 @@ public class HeterogeneousRegionCountCostFunction extends StochasticLoadBalancer
     return readLines(reader);
   }
 
-  @SuppressWarnings("objectconstruction:required.method.not.called") //TP: readLine() throws IOException
+  @SuppressWarnings("objectconstruction:required.method.not.called") //TP: readLine() throws IOException (validated)
   private List<String> readLines(@Owning BufferedReader reader) throws IOException {
     final List<String> records = new ArrayList<>();
     String line;

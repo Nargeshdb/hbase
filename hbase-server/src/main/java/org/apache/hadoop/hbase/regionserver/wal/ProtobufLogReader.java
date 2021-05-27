@@ -160,7 +160,7 @@ public class ProtobufLogReader extends ReaderBase {
   }
 
   @Override
-  @SuppressWarnings("objectconstruction:reset.not.owning") // ProtobufLogReader isn't a JDK class
+  @SuppressWarnings("objectconstruction:reset.not.owning") // ProtobufLogReader isn't a JDK class (DISAGREE: we added the @CreatesObligation annotation)
   public void reset() throws IOException {
     String clsName = initInternal(null, false);
     initAfterCompression(clsName); // We need a new decoder (at least).
@@ -174,7 +174,7 @@ public class ProtobufLogReader extends ReaderBase {
   }
 
   @Override
-  @SuppressWarnings("objectconstruction:reset.not.owning") // ProtobufLogReader isn't a JDK class
+  @SuppressWarnings("objectconstruction:reset.not.owning") // ProtobufLogReader isn't a JDK class (DISAGREE: we added the @CreatesObligation annotation)
   protected String initReader(FSDataInputStream stream) throws IOException {
     return initInternal(stream, true);
   }

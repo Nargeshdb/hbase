@@ -147,7 +147,7 @@ class SimpleServerRpcConnection extends ServerRpcConnection {
    * @throws IOException
    * @throws InterruptedException
    */
-  @SuppressWarnings("objectconstruction:required.method.not.called") //TP: is remains open
+  @SuppressWarnings("objectconstruction:required.method.not.called") //TP: is remains open (DISAGREE: I don't think is needs to be closed.  I think the channel field is the underlying resource here)
   public int readAndProcess() throws IOException, InterruptedException {
     // If we have not read the connection setup preamble, look to see if that is on the wire.
     if (!connectionPreambleRead) {

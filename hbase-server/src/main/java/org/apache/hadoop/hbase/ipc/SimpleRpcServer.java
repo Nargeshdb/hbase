@@ -113,7 +113,7 @@ public class SimpleRpcServer extends RpcServer {
 
     private ExecutorService readPool;
 
-    @SuppressWarnings("objectconstruction:reset.not.owning") // FP: https://github.com/kelloggm/object-construction-checker/blob/master/object-construction-checker/tests/socket/BindChannel.java
+    @SuppressWarnings("objectconstruction:reset.not.owning") // FP: https://github.com/kelloggm/object-construction-checker/blob/master/object-construction-checker/tests/socket/BindChannel.java (validated)
     public Listener(final String name) throws IOException {
       super(name);
       // The backlog of requests that we will have the serversocket carry.
@@ -215,7 +215,7 @@ public class SimpleRpcServer extends RpcServer {
        * so the connection must be queued.  The reader will drain the queue
        * and update its readSelector before performing the next select
        */
-      @SuppressWarnings("objectconstruction:required.method.not.called") //FP: add annotation for Selector?
+      @SuppressWarnings("objectconstruction:required.method.not.called") //FP: add annotation for Selector? (DISAGREE: add the annotation in stub?)
       public void addConnection(SimpleServerRpcConnection conn) throws IOException {
         pendingConnections.add(conn);
         readSelector.wakeup();
@@ -226,7 +226,7 @@ public class SimpleRpcServer extends RpcServer {
     @edu.umd.cs.findbugs.annotations.SuppressWarnings(value="IS2_INCONSISTENT_SYNC",
       justification="selector access is not synchronized; seems fine but concerned changing " +
         "it will have per impact")
-    @SuppressWarnings("objectconstruction:contracts.postcondition.not.satisfied") //TP: if acceptChannel.close() throws an IOException, then selector remains open.
+    @SuppressWarnings("objectconstruction:contracts.postcondition.not.satisfied") //TP: if acceptChannel.close() throws an IOException, then selector remains open. (validated)
     @EnsuresCalledMethods(value = {"this.acceptChannel", "this.selector"}, methods = "close")
     public void run() {
       LOG.info(getName() + ": starting");
@@ -352,7 +352,7 @@ public class SimpleRpcServer extends RpcServer {
         c.setLastContact(System.currentTimeMillis());
       }
     }
-    @SuppressWarnings("objectconstruction:required.method.not.called") //FP: add annotation for Selector?
+    @SuppressWarnings("objectconstruction:required.method.not.called") //FP: add annotation for Selector? (DISAGREE: add annotation in stub?)
     synchronized void doStop() {
       if (selector != null) {
         selector.wakeup();
