@@ -102,7 +102,6 @@ class SimpleRpcServerResponder extends Thread {
   /**
    * Add a connection to the list that want to write,
    */
-  @SuppressWarnings("objectconstruction:required.method.not.called") //FP: add annotation for Selector? (DISAGREE: add the annotation in stub?)
   public void registerForWrite(SimpleServerRpcConnection c) {
     if (writingCons.add(c)) {
       writeSelector.wakeup();

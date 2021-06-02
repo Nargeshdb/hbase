@@ -79,7 +79,7 @@ public class ProtobufLogReader extends ReaderBase {
   static final String WAL_TRAILER_WARN_SIZE = "hbase.regionserver.waltrailer.warn.size";
   static final int DEFAULT_WAL_TRAILER_WARN_SIZE = 1024 * 1024; // 1MB
 
-  protected @Owning FSDataInputStream inputStream;
+  protected FSDataInputStream inputStream;
   protected Codec.Decoder cellDecoder;
   protected WALCellCodec.ByteStringUncompressor byteStringUncompressor;
   protected boolean hasCompression = false;
@@ -160,7 +160,6 @@ public class ProtobufLogReader extends ReaderBase {
   }
 
   @Override
-  @SuppressWarnings("objectconstruction:reset.not.owning") // ProtobufLogReader isn't a JDK class (DISAGREE: we added the @CreatesObligation annotation)
   public void reset() throws IOException {
     String clsName = initInternal(null, false);
     initAfterCompression(clsName); // We need a new decoder (at least).
@@ -174,7 +173,6 @@ public class ProtobufLogReader extends ReaderBase {
   }
 
   @Override
-  @SuppressWarnings("objectconstruction:reset.not.owning") // ProtobufLogReader isn't a JDK class (DISAGREE: we added the @CreatesObligation annotation)
   protected String initReader(FSDataInputStream stream) throws IOException {
     return initInternal(stream, true);
   }
@@ -208,7 +206,6 @@ public class ProtobufLogReader extends ReaderBase {
      return new WALHdrContext(WALHdrResult.SUCCESS, clsName);
   }
 
-  @CreatesObligation("this")
   private String initInternal(@Owning FSDataInputStream stream, boolean isFirst)
       throws IOException {
     close();

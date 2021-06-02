@@ -42,7 +42,10 @@ import org.apache.hbase.thirdparty.com.google.protobuf.Descriptors.MethodDescrip
 import org.apache.hbase.thirdparty.com.google.protobuf.Message;
 import org.apache.hadoop.hbase.shaded.protobuf.ProtobufUtil;
 import org.apache.hadoop.hbase.shaded.protobuf.generated.RPCProtos.RequestHeader;
+import org.checkerframework.checker.calledmethods.qual.EnsuresCalledMethods;
 import org.checkerframework.checker.mustcall.qual.MustCall;
+import org.checkerframework.checker.mustcall.qual.MustCallAlias;
+import org.checkerframework.checker.objectconstruction.qual.Owning;
 
 /** Reads calls from a connection and queues them for handling. */
 @edu.umd.cs.findbugs.annotations.SuppressWarnings(value = "VO_VOLATILE_INCREMENT",
@@ -50,7 +53,7 @@ import org.checkerframework.checker.mustcall.qual.MustCall;
 @InterfaceAudience.Private
 class SimpleServerRpcConnection extends ServerRpcConnection {
 
-  final SocketChannel channel;
+  final @Owning SocketChannel channel;
   private ByteBuff data;
   private ByteBuffer dataLengthBuffer;
   private ByteBuffer preambleBuffer;
@@ -66,7 +69,7 @@ class SimpleServerRpcConnection extends ServerRpcConnection {
   final Lock responseWriteLock = new ReentrantLock();
   long lastSentTime = -1L;
 
-  public SimpleServerRpcConnection(SimpleRpcServer rpcServer, SocketChannel channel,
+  public @MustCallAlias SimpleServerRpcConnection(SimpleRpcServer rpcServer, @MustCallAlias SocketChannel channel,
       long lastContact) {
     super(rpcServer);
     this.channel = channel;
@@ -147,7 +150,7 @@ class SimpleServerRpcConnection extends ServerRpcConnection {
    * @throws IOException
    * @throws InterruptedException
    */
-  @SuppressWarnings("objectconstruction:required.method.not.called") //TP: is remains open (DISAGREE: I don't think is needs to be closed.  I think the channel field is the underlying resource here)
+  @SuppressWarnings("objectconstruction:required.method.not.called") // FP: the underlying resource of "is" is channel field
   public int readAndProcess() throws IOException, InterruptedException {
     // If we have not read the connection setup preamble, look to see if that is on the wire.
     if (!connectionPreambleRead) {
@@ -292,6 +295,8 @@ class SimpleServerRpcConnection extends ServerRpcConnection {
   }
 
   @Override
+  @SuppressWarnings("objectconstruction:contracts.postcondition.not.satisfied") // FP: we can't verify that if "isOpen()" returns false then channel is closed
+  @EnsuresCalledMethods(value = {"this.channel"}, methods = "close")
   public synchronized void close() {
     disposeSasl();
     data = null;

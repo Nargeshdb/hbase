@@ -816,7 +816,7 @@ class BlockingRpcConnection extends RpcConnection implements Runnable {
     }, new CancellationCallback() {
 
       @Override
-      @SuppressWarnings("objectconstruction:reset.not.owning") // CancellationCallback isn't a JDK class (DISAGREE: to remember to check our policy on this)
+      @SuppressWarnings({"objectconstruction:reset.not.owning", "objectconstruction:creates.obligation.override.invalid"}) // FP: can't handle inner class
       public void run(boolean cancelled) throws IOException {
         if (cancelled) {
           setCancelled(call);
