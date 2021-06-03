@@ -33,7 +33,7 @@ import org.apache.hbase.thirdparty.com.google.common.annotations.VisibleForTesti
  * See HBaseServer
  */
 @InterfaceAudience.Private
-@SuppressWarnings("mustcall:type.argument.type.incompatible") // Not related to a JDK class
+@SuppressWarnings("mustcall:type.argument.type.incompatible") // Not related to a JDK class (validated)
 public class BlockingRpcClient extends AbstractRpcClient<BlockingRpcConnection> {
 
   protected final SocketFactory socketFactory; // how to create sockets
