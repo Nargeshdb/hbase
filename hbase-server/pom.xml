@@ -109,7 +109,7 @@
                 <arg>-AcountMustCall</arg>
                 <arg>-ArequirePrefixInWarningSuppressions</arg>
                 <arg>-AwarnUnneededSuppressions</arg>
-                <arg>-AskipDefs=^org.apache.hadoop.hbase.generated\.</arg>
+                <arg>-AskipDefs=(^org.apache.hadoop.hbase.generated\.|StoreFileWriter)</arg>
                 <arg>-Astubs=../hbase.astub</arg>
               </compilerArgs>
             </configuration>
