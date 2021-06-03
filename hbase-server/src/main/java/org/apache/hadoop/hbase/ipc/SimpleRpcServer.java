@@ -113,7 +113,7 @@ public class SimpleRpcServer extends RpcServer {
 
     private ExecutorService readPool;
 
-    @SuppressWarnings("objectconstruction:reset.not.owning") // FP: https://github.com/kelloggm/object-construction-checker/blob/master/object-construction-checker/tests/socket/BindChannel.java (validated)
+//    @SuppressWarnings("objectconstruction:reset.not.owning") // FP: https://github.com/kelloggm/object-construction-checker/blob/master/object-construction-checker/tests/socket/BindChannel.java (validated)
     public Listener(final String name) throws IOException {
       super(name);
       // The backlog of requests that we will have the serversocket carry.
@@ -225,7 +225,7 @@ public class SimpleRpcServer extends RpcServer {
     @edu.umd.cs.findbugs.annotations.SuppressWarnings(value="IS2_INCONSISTENT_SYNC",
       justification="selector access is not synchronized; seems fine but concerned changing " +
         "it will have per impact")
-    @SuppressWarnings("objectconstruction:contracts.postcondition.not.satisfied") //TP: if acceptChannel.close() throws an IOException, then selector remains open. (validated)
+//    @SuppressWarnings("objectconstruction:contracts.postcondition.not.satisfied") //TP: if acceptChannel.close() throws an IOException, then selector remains open. (validated)
     @EnsuresCalledMethods(value = {"this.acceptChannel", "this.selector"}, methods = "close")
     public void run() {
       LOG.info(getName() + ": starting");

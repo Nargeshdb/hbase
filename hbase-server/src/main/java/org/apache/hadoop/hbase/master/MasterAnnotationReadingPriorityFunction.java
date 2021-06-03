@@ -52,7 +52,7 @@ public class MasterAnnotationReadingPriorityFunction extends AnnotationReadingPr
 
   public static final int META_TRANSITION_QOS = 300;
 
-  @SuppressWarnings("mustcall:argument.type.incompatible") // FP: https://github.com/typetools/checker-framework/issues/979 (validated)
+//  @SuppressWarnings("mustcall:argument.type.incompatible") // FP: https://github.com/typetools/checker-framework/issues/979 (validated)
   public MasterAnnotationReadingPriorityFunction(final RSRpcServices rpcServices) {
     this(rpcServices, rpcServices.getClass());
   }

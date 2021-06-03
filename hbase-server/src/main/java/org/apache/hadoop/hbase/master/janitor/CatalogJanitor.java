@@ -409,7 +409,7 @@ public class CatalogJanitor extends ScheduledChore {
     return this.services.getTableDescriptors().get(tableName);
   }
 
-  @SuppressWarnings("objectconstruction:required.method.not.called") //TP: inStream remains open (validated)
+//  @SuppressWarnings("objectconstruction:required.method.not.called") //TP: inStream remains open (validated)
   private static void checkLog4jProperties() {
     String filename = "log4j.properties";
     try {
