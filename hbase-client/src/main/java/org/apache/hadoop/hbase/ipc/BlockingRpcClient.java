@@ -33,7 +33,7 @@ import org.apache.hbase.thirdparty.com.google.common.annotations.VisibleForTesti
  * See HBaseServer
  */
 @InterfaceAudience.Private
-@SuppressWarnings("mustcall:type.argument.type.incompatible") // Not related to a JDK class (validated)
+@SuppressWarnings("mustcall:type.argument.type.incompatible") // FP Java 8 type argument inference: https://github.com/typetools/checker-framework/issues/979 (validated)
 public class BlockingRpcClient extends AbstractRpcClient<BlockingRpcConnection> {
 
   protected final SocketFactory socketFactory; // how to create sockets

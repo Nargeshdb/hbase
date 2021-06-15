@@ -177,7 +177,7 @@ class BlockingRpcConnection extends RpcConnection implements Runnable {
      * Reads the call from the queue, write them on the socket.
      */
     @Override
-    @SuppressWarnings("objectconstruction:reset.not.owning") // CallSender isn't a JDK class (validated)
+    @SuppressWarnings("objectconstruction:reset.not.owning") // FP CreatesObligation should permit the call (checker bug): tracedWriteRequest has @CreatesObligation and we report a warning here with or without @CreatesObligation on this method (validated)
     public void run() {
       synchronized (BlockingRpcConnection.this) {
         while (!closed) {
