@@ -225,7 +225,7 @@ public class SimpleRpcServer extends RpcServer {
     @edu.umd.cs.findbugs.annotations.SuppressWarnings(value="IS2_INCONSISTENT_SYNC",
       justification="selector access is not synchronized; seems fine but concerned changing " +
         "it will have per impact")
-    @SuppressWarnings("objectconstruction:contracts.postcondition.not.satisfied") //TP: if acceptChannel.close() throws an IOException, then selector remains open. (validated)
+    @SuppressWarnings("objectconstruction:contracts.postcondition.not.satisfied") // TP: if acceptChannel.close() throws an IOException, then selector remains open. (validated)
     @EnsuresCalledMethods(value = {"this.acceptChannel", "this.selector"}, methods = "close")
     public void run() {
       LOG.info(getName() + ": starting");

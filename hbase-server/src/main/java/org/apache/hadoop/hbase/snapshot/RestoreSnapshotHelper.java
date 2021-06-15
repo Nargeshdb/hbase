@@ -717,8 +717,8 @@ public class RestoreSnapshotHelper {
    * @param storeFile reference file name
    */
   @SuppressWarnings({
-    "objectconstruction:required.method.not.called", //TP: fs.create(outPath) throws IOException and in remains open (validated)
-    "objectconstruction:required.method.not.called" //TP: in remains open in else branch (validated)
+    "objectconstruction:required.method.not.called", // TP: fs.create(outPath) throws IOException and in remains open (validated)
+    "objectconstruction:required.method.not.called" // TP: in remains open in else branch (validated)
   })
   private void restoreReferenceFile(final Path familyDir, final RegionInfo regionInfo,
       final SnapshotRegionManifest.StoreFile storeFile) throws IOException {
