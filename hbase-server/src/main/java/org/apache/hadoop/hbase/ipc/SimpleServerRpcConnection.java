@@ -150,7 +150,7 @@ class SimpleServerRpcConnection extends ServerRpcConnection {
    * @throws IOException
    * @throws InterruptedException
    */
-  @SuppressWarnings("objectconstruction:required.method.not.called") // FP: the underlying resource of "is" is channel field (validated)
+  @SuppressWarnings("objectconstruction:required.method.not.called") // FP anonymous class: the underlying resource of "is" is channel field (validated)
   public int readAndProcess() throws IOException, InterruptedException {
     // If we have not read the connection setup preamble, look to see if that is on the wire.
     if (!connectionPreambleRead) {
@@ -295,7 +295,7 @@ class SimpleServerRpcConnection extends ServerRpcConnection {
   }
 
   @Override
-  @SuppressWarnings("objectconstruction:contracts.postcondition.not.satisfied") // FP: we can't verify that if "isOpen()" returns false then channel is closed (validated)
+  @SuppressWarnings("objectconstruction:contracts.postcondition.not.satisfied") // FP depends on boolean variable: we can't verify that if "isOpen()" returns false then channel is closed (validated)
   @EnsuresCalledMethods(value = {"this.channel"}, methods = "close")
   public synchronized void close() {
     disposeSasl();

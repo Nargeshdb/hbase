@@ -45,7 +45,7 @@ public class RemoteWithExtrasException extends RemoteException {
   /**
    * Dynamic class loader to load filter/comparators
    */
-  @SuppressWarnings("mustcall:return.type.incompatible") //FP: https://github.com/typetools/checker-framework/issues/979 (validated)
+  @SuppressWarnings("mustcall:return.type.incompatible") // FP Java 8 type argument inference: https://github.com/typetools/checker-framework/issues/979 (validated)
   private final static class ClassLoaderHolder {
     private final static ClassLoader CLASS_LOADER;
 

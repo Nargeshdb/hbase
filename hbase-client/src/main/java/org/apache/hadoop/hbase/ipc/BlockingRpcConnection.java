@@ -298,7 +298,7 @@ class BlockingRpcConnection extends RpcConnection implements Runnable {
    * @param ioe failure reason
    * @throws IOException if max number of retries is reached
    */
-  @SuppressWarnings("objectconstruction:contracts.postcondition.not.satisfied") // FP: can't verify that socket is closed in "closeSocket" due to potential side effects after (validated)
+  @SuppressWarnings("objectconstruction:contracts.postcondition.not.satisfied") // FP potential side effects: can't verify that socket is closed in "closeSocket" due to potential side effects (validated)
   @EnsuresCalledMethods(value = "this.socket", methods = "close")
   private void handleConnectionFailure(int curRetries, int maxRetries, IOException ioe)
       throws IOException {
@@ -394,7 +394,7 @@ class BlockingRpcConnection extends RpcConnection implements Runnable {
    * first time -- for those, we want to fail-fast.
    * </p>
    */
-  @SuppressWarnings("objectconstruction:contracts.postcondition.not.satisfied") // FP: can't verify that socket is closed in "closeSocket" due to potential side effects after (validated)
+  @SuppressWarnings("objectconstruction:contracts.postcondition.not.satisfied") // FP potential side effects: can't verify that socket is closed in "closeSocket" due to potential side effects after (validated)
   @EnsuresCalledMethods(value = {"this.socket"}, methods = {"close"})
   private void handleSaslConnectionFailure(final int currRetries, final int maxRetries,
       final Exception ex, final UserGroupInformation user)
@@ -446,7 +446,7 @@ class BlockingRpcConnection extends RpcConnection implements Runnable {
   }
 
   @CreatesObligation("this")
-  @SuppressWarnings("objectconstruction:contracts.precondition.not.satisfied") //FP: There is null check for socket and while loop executes only once in regular exit path and close is called on exceptional paths (validated)
+  @SuppressWarnings("objectconstruction:contracts.precondition.not.satisfied") // FP nullness reasoning: There is null check for socket and while loop executes only once in regular exit path and close is called on exceptional paths (validated)
   private void setupIOstreams() throws IOException {
     if (socket != null) {
       // The connection is already available. Perfect.
@@ -763,7 +763,7 @@ class BlockingRpcConnection extends RpcConnection implements Runnable {
   }
 
   // close socket, reader, and clean up all pending calls.
-  @SuppressWarnings("objectconstruction:contracts.postcondition.not.satisfied") // FP: when socket is connected, thread is not null (validated)
+  @SuppressWarnings("objectconstruction:contracts.postcondition.not.satisfied") // FP depends on boolean variable: when socket is connected, thread is not null (validated)
   @EnsuresCalledMethods(value = "this.socket", methods = "close")
   private void closeConn(IOException e) {
     if (thread == null) {
@@ -816,7 +816,7 @@ class BlockingRpcConnection extends RpcConnection implements Runnable {
     }, new CancellationCallback() {
 
       @Override
-      @SuppressWarnings({"objectconstruction:reset.not.owning", "objectconstruction:creates.obligation.override.invalid"}) // FP: can't handle anonymous class (validated)
+      @SuppressWarnings({"objectconstruction:reset.not.owning", "objectconstruction:creates.obligation.override.invalid"}) // FP anonymous class: can't handle CreatesObligation on anonymous class (validated)
       public void run(boolean cancelled) throws IOException {
         if (cancelled) {
           setCancelled(call);

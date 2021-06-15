@@ -57,8 +57,8 @@ public class FileIOEngine extends PersistentIOEngine {
   private FileWriteAccessor writeAccessor = new FileWriteAccessor();
 
   @SuppressWarnings({
-    "objectconstruction:required.method.not.called", //FP: ownership transfer to rafs[] (validated)
-    "objectconstruction:required.method.not.called" //FP: ownership transfer to fileChannels[] (validated)
+    "objectconstruction:required.method.not.called", // FP container of owners: ownership transfer to rafs[] (validated)
+    "objectconstruction:required.method.not.called" // FP container of owners: ownership transfer to fileChannels[] (validated)
   })
   public FileIOEngine(long capacity, boolean maintainPersistence, String... filePaths)
       throws IOException {
@@ -294,8 +294,8 @@ public class FileIOEngine extends PersistentIOEngine {
 
   @VisibleForTesting
   @SuppressWarnings({
-    "objectconstruction:required.method.not.called", //FP: ownership transfer to an array (validated)
-    "objectconstruction:required.method.not.called" //FP: ownership transfer to an array (validated)
+    "objectconstruction:required.method.not.called", // FP container of owners: ownership transfer to an array (validated)
+    "objectconstruction:required.method.not.called" // FP container of owners: ownership transfer to an array (validated)
   })
   void refreshFileConnection(int accessFileNum, IOException ioe) throws IOException {
     ReentrantLock channelLock = channelLocks[accessFileNum];

@@ -113,7 +113,7 @@ public class SimpleRpcServer extends RpcServer {
 
     private ExecutorService readPool;
 
-    @SuppressWarnings("objectconstruction:reset.not.owning") // FP: https://github.com/kelloggm/object-construction-checker/blob/master/object-construction-checker/tests/socket/BindChannel.java (validated)
+    @SuppressWarnings("objectconstruction:reset.not.owning") // FP CreatesObligation method called by constructor: bind(...) has @CreatesObligation("#1") (validated)
     public Listener(final String name) throws IOException {
       super(name);
       // The backlog of requests that we will have the serversocket carry.

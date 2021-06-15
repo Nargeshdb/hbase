@@ -599,7 +599,7 @@ public class HFileWriterImpl implements HFile.Writer {
   }
 
   @Override
-  @SuppressWarnings("mustcall:argument.type.incompatible") // FP: https://github.com/typetools/checker-framework/issues/979 (validated)
+  @SuppressWarnings("mustcall:argument.type.incompatible") // FP Java 8 type argument inference: https://github.com/typetools/checker-framework/issues/979 (validated)
   public void close() throws IOException {
     if (outputStream == null) {
       return;
