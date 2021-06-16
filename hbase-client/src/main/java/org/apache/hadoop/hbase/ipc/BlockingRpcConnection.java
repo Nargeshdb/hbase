@@ -446,7 +446,7 @@ class BlockingRpcConnection extends RpcConnection implements Runnable {
   }
 
   @CreatesObligation("this")
-  @SuppressWarnings("objectconstruction:contracts.precondition.not.satisfied") // FP nullness reasoning: There is null check for socket and while loop executes only once in regular exit path and close is called on exceptional paths (validated)
+  @SuppressWarnings("objectconstruction:contracts.precondition.not.satisfied") // FP nullness reasoning: There is a null check for socket and the while loop executes only once in regular exit path and close is called on exceptional paths (validated)
   private void setupIOstreams() throws IOException {
     if (socket != null) {
       // The connection is already available. Perfect.
